@@ -8,7 +8,7 @@ public class Baza {
 
     private static final String DB_URL = "jdbc:mysql://192.168.70.33:3306/osobe_diplomski?characterEncoding=utf-8";
     private static final String USER = "matej";
-    private static final String PASS = "matej";//pass
+    private static final String PASS = "matej";
 
     public Baza() {
     }
