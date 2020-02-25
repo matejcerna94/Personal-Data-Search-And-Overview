@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".OAplikacijiActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="O aplikaciji"
+        android:textSize="35dp"
+        android:layout_centerHorizontal="true"
+        android:elevation="1dp"
+        android:textStyle="bold"
+        android:padding="10dp"
+        android:textColor="@color/colorWhite"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Aplikacija Personal Data S&amp;O je napravljena u svrhu diplomskog rada na Fakultetu prirodoslovno - matematičkih i odgojnih znanosti, Sveučilište u Mostaru. Aplikacija nudi mogućnosti pretrage i pregleda osobnih podataka te dodavanje, uređivanje i brisanje istih. Aplikaciju je napravio Matej Anđelić."
+        android:textSize="20dp"
+        android:elevation="1dp"
+        android:textColor="@color/colorWhite"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:textAlignment="center"/>
+
+    <ImageView
+        android:id="@+id/pozadina"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/pozadina_plava" />
+
+
+</RelativeLayout>

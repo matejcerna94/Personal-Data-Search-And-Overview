@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".DetaljiOsobeActivity">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:elevation="1dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Detalji o osobi"
+                android:textAlignment="center"
+                android:textColor="@color/colorWhite"
+                android:textSize="35dp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/ispis_slike_osobe"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="15dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/ime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Ime:"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="25dp" />
+
+                <TextView
+                    android:id="@+id/ispis_imena_txt"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="25dp"
+                    android:paddingLeft="10dp"/>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="15dp">
+
+                <TextView
+                    android:id="@+id/prezime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Prezime:"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="25dp" />
+
+                <TextView
+                    android:id="@+id/ispis_prezimena_txt"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="25dp"
+                    android:paddingLeft="10dp" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="15dp">
+
+                <TextView
+                    android:id="@+id/adresa"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Adresa:"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="25dp" />
+
+                <TextView
+                    android:id="@+id/ispis_adrese_txt"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="25dp"
+                    android:paddingLeft="10dp" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="15dp">
+
+                <TextView
+                    android:id="@+id/spol"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Spol:"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="25dp" />
+
+                <TextView
+                    android:id="@+id/ispis_spola_txt"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="25dp"
+                    android:paddingLeft="10dp" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="15dp">
+
+                <TextView
+                    android:id="@+id/oib"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="OIB:"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="25dp" />
+
+                <TextView
+                    android:id="@+id/ispis_oiba_txt"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="25dp"
+                    android:paddingLeft="10dp" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="15dp">
+
+                <TextView
+                    android:id="@+id/mjesto_rodenja"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Mjesto rođenja:"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="25dp" />
+
+                <TextView
+                    android:id="@+id/ispis_mjesta_rodenja_txt"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="25dp"
+                    android:paddingLeft="10dp" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="15dp">
+
+                <TextView
+                    android:id="@+id/datum_rodenja"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Datum rođenja:"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="25dp" />
+
+                <TextView
+                    android:id="@+id/ispis_datuma_rodenja_txt"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="25dp"
+                    android:paddingLeft="10dp" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="15dp">
+
+                <TextView
+                    android:id="@+id/oib"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Grad:"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="25dp" />
+
+                <TextView
+                    android:id="@+id/ispis_grada_txt"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="25dp"
+                    android:paddingLeft="10dp" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="15dp">
+
+                <TextView
+                    android:id="@+id/zupanija"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Županija:"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="25dp" />
+
+                <TextView
+                    android:id="@+id/ispis_zupanije_txt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="25dp"
+                    android:paddingLeft="10dp" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="15dp">
+
+                <Button
+                    android:id="@+id/uredi_osobu_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/button"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:text="Uredi"
+                    android:textColor="@color/colorWhite"
+                    android:layout_marginHorizontal="1dp"/>
+
+                <Button
+                    android:id="@+id/obrisi_osobu_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/button"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:text="Obriši"
+                    android:textColor="@color/colorWhite"
+                    android:layout_marginHorizontal="1dp"/>
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <ImageView
+        android:id="@+id/pozadina"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/pozadina_plava" />
+
+</RelativeLayout>

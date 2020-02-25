@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".DodajAdminaActivity">
+
+    <ScrollView
+        android:id="@+id/scrollview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:elevation="1dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+
+            <TextView
+                android:id="@+id/text_view_dodaj_admina"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Dodaj administratora"
+                android:textAlignment="center"
+                android:textColor="@color/colorWhite"
+                android:textSize="35dp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/image_view_slika_admina"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_below="@+id/text_view_dodaj_osobu"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp" />
+
+            <Button
+                android:id="@+id/odaberi_sliku_admina_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/image_view_slika_admina"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/button"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="Odaberi sliku"
+                android:textColor="@color/colorWhite" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:elevation="9dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Korisničko ime"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="20dp" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/unesi_korisnicko_ime_txt"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="2dp"
+                        android:paddingEnd="9dp"
+                        android:background="@drawable/edit_text"
+                        android:paddingStart="9dp"
+                        android:textColor="@color/colorWhite"
+                        android:textCursorDrawable="@drawable/bijeli_pokazivac"
+                        android:textSize="20dp" />
+
+                </android.support.design.widget.TextInputLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Lozinka"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="20dp" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:passwordToggleTint="@color/colorWhite"
+                    app:passwordToggleEnabled="true">
+
+                    <EditText
+                        android:id="@+id/unesi_lozinku_txt"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="2dp"
+                        android:background="@drawable/edit_text"
+                        android:paddingStart="9dp"
+                        android:paddingEnd="9dp"
+                        android:inputType="textPassword"
+                        android:textColor="@color/colorWhite"
+                        android:textCursorDrawable="@drawable/bijeli_pokazivac"
+                        android:textSize="20dp" />
+
+                </android.support.design.widget.TextInputLayout>
+
+
+            </LinearLayout>
+
+
+
+
+            <Button
+                android:id="@+id/dodaj_admina_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/button"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="Dodaj"
+                android:textColor="@color/colorWhite" />
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <ImageView
+        android:id="@+id/pozadina"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/pozadina_plava" />
+
+
+</RelativeLayout>

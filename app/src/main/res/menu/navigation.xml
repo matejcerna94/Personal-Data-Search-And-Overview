@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_osobe"
+        android:icon="@drawable/ic_osobe"
+        android:title="Osobe" />
+
+    <item
+        android:id="@+id/navigation_admin"
+        android:icon="@drawable/ic_admin"
+        android:title="Administrator" />
+
+
+
+</menu>

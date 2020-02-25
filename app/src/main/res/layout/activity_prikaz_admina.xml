@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".PrikazAdminaActivity">
+
+    <TextView
+        android:elevation="1dp"
+        android:textColor="@color/colorWhite"
+        android:id="@+id/prikaz_admina_txt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Prikaz administratora"
+        android:textSize="35dp"
+        android:gravity="center"/>
+
+    <GridView
+        android:paddingTop="10dp"
+        android:elevation="1dp"
+        android:id="@+id/grid_view_admin"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/prikaz_admina_txt"
+        android:clickable="true"
+        android:columnWidth="100dp"
+        android:gravity="center"
+        android:numColumns="3"
+        android:stretchMode="spacingWidthUniform"
+        android:verticalSpacing="35dp"
+
+        />
+
+    <ImageView
+        android:id="@+id/pozadina"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/pozadina_plava" />
+
+
+
+
+
+</RelativeLayout>
