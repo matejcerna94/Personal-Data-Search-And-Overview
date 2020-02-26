@@ -8,6 +8,8 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
+import android.os.Build;
+import android.os.Bundle;
 import android.os.Environment;
 import android.os.StrictMode;
 import android.provider.MediaStore;
@@ -15,10 +17,8 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -32,17 +32,27 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.util.Calendar;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 import static com.matejcerna.DodajOsobuActivity.kreirajIspravnuSliku;
 import static com.matejcerna.DodajOsobuActivity.provjeriUnos;
 
 public class DodajAdminaActivity extends AppCompatActivity {
 
-    EditText unesiKorisnickoIme;
+    /*EditText unesiKorisnickoIme;
     EditText unesiLozinku;
     Button dodajAdmina;
     Button odaberiSliku;
-    ImageView imageViewSlikaAdmina;
+    ImageView imageViewSlikaAdmina;*/
     byte[] slika_admina;
+    @BindView(R.id.image_view_slika_admina)
+    ImageView imageViewSlikaAdmina;
+    @BindView(R.id.unesi_korisnicko_ime_txt)
+    EditText unesiKorisnickoIme;
+    @BindView(R.id.unesi_lozinku_txt)
+    EditText unesiLozinku;
     private int GALLERY = 1;
     private int CAMERA = 2;
     private static final String IMAGE_DIRECTORY = "/slike_iz_aplikacije";
@@ -58,43 +68,26 @@ public class DodajAdminaActivity extends AppCompatActivity {
     String storagePermission[];
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dodaj_admina);
+        ButterKnife.bind(this);
 
-        if (android.os.Build.VERSION.SDK_INT > 9) {
+        if (Build.VERSION.SDK_INT > 9) {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
         }
 
 
-        unesiKorisnickoIme = findViewById(R.id.unesi_korisnicko_ime_txt);
+        /*unesiKorisnickoIme = findViewById(R.id.unesi_korisnicko_ime_txt);
         unesiLozinku = findViewById(R.id.unesi_lozinku_txt);
         imageViewSlikaAdmina = findViewById(R.id.image_view_slika_admina);
         dodajAdmina = findViewById(R.id.dodaj_admina_btn);
-        odaberiSliku = findViewById(R.id.odaberi_sliku_admina_btn);
+        odaberiSliku = findViewById(R.id.odaberi_sliku_admina_btn);*/
 
         cameraPermission = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
         storagePermission = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
-
-        odaberiSliku.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                prikaziDialog();
-            }
-        });
-
-        dodajAdmina.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                provjeriUnos(unesiKorisnickoIme);
-                provjeriUnos(unesiLozinku);
-                dodajAdmina();
-            }
-        });
 
     }
 
@@ -152,9 +145,9 @@ public class DodajAdminaActivity extends AppCompatActivity {
                 if (korisnicko_ime.equals("") || lozinka.equals("")) {
                     Toast.makeText(DodajAdminaActivity.this, "Morate ispuniti sva polja!", Toast.LENGTH_SHORT).show();
                 } else {
-                    if(slika_admina == null){
+                    if (slika_admina == null) {
                         Toast.makeText(this, "Morate odabrati sliku!", Toast.LENGTH_SHORT).show();
-                    }else{
+                    } else {
                         String upit = "INSERT INTO admin(id, korisnicko_ime, lozinka, slika) VALUES (null, ?, ?, ?)";
                         PreparedStatement preparedStatement = connection.prepareStatement(upit);
 
@@ -194,20 +187,20 @@ public class DodajAdminaActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 if (which == 0) {
                     //odabrana je opcija KAMERA
-                    if(!checkCameraPermission()){
+                    if (!checkCameraPermission()) {
                         //nije odobreno koristenje kamere, zatrazi dopustenje
                         requestCameraPermission();
-                    }else{
+                    } else {
                         //dopustena je upotreba kamere, moze se uslikati slika
                         takePhotoFromCamera();
                     }
                 }
                 if (which == 1) {
                     //odabrana je opcija GALERIJA
-                    if(!checkStoragePermission()){
+                    if (!checkStoragePermission()) {
                         //nije odobreno koristenje galerije, zatrazi dopustenje
                         requestStoragePermission();
-                    }else{
+                    } else {
                         //dopustena je upotreba galerije, moze se odabrati slika
                         choosePhotoFromGallary();
                     }
@@ -245,7 +238,7 @@ public class DodajAdminaActivity extends AppCompatActivity {
 
     public void choosePhotoFromGallary() {
         Intent intent = new Intent(Intent.ACTION_PICK,
-                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
         startActivityForResult(intent, GALLERY);
     }
@@ -293,4 +286,15 @@ public class DodajAdminaActivity extends AppCompatActivity {
     }
 
 
+    @OnClick(R.id.odaberi_sliku_admina_btn)
+    public void onOdaberiSlikuAdminaBtnClicked() {
+        prikaziDialog();
+    }
+
+    @OnClick(R.id.dodaj_admina_btn)
+    public void onDodajAdminaBtnClicked() {
+        provjeriUnos(unesiKorisnickoIme);
+        provjeriUnos(unesiLozinku);
+        dodajAdmina();
+    }
 }
