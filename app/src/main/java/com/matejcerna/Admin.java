@@ -3,13 +3,13 @@ package com.matejcerna;
 public class Admin {
 
     int id;
-    String korisniko_ime;
+    String korisnicko_ime;
     String lozinka;
     byte [] slika;
 
-    public Admin(int id, String korisniko_ime, String lozinka, byte [] slika) {
+    public Admin(int id, String korisnicko_ime, String lozinka, byte [] slika) {
         this.id = id;
-        this.korisniko_ime = korisniko_ime;
+        this.korisnicko_ime = korisnicko_ime;
         this.lozinka = lozinka;
         this.slika = slika;
     }
@@ -19,7 +19,7 @@ public class Admin {
     }
 
     public String getKorisniko_ime() {
-        return korisniko_ime;
+        return korisnicko_ime;
     }
 
     public String getLozinka() {
