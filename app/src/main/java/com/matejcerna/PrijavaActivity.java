@@ -2,10 +2,11 @@ package com.matejcerna;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
+import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
@@ -17,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
@@ -26,31 +28,49 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 public class PrijavaActivity extends AppCompatActivity {
 
     static ArrayList<Admin> admini;
-
+    @BindView(R.id.slika_login)
+    ImageView slikaLogin;
+    @BindView(R.id.text_view_prijava)
+    TextView textViewPrijava;
+    @BindView(R.id.korisnicko_ime_txt)
     EditText unesiKorisnickoIme;
+    @BindView(R.id.lozinka_txt)
     EditText unesiLozinku;
+    @BindView(R.id.linear_layout_polja)
+    LinearLayout linearLayoutPolja;
+    @BindView(R.id.relative_layout_animacija)
+    RelativeLayout relativeLayoutAnimacija;
+    @BindView(R.id.pozadina)
+    ImageView pozadina;
+    @BindView(R.id.prijavi_se_btn)
     Button prijaviSe;
-    Button info;
+
+    /* EditText unesiKorisnickoIme;
+     EditText unesiLozinku;
+     Button prijaviSe;
+     Button info;*/
     private boolean success = false;
     String msg;
     private int brojac = 5;
     Animation animacijaOdozdo;
-    LinearLayout linearLayoutPolja;
-    ImageView slikaLogin;
-    TextView textViewPrijava;
-    RelativeLayout relativeLayoutAnimacija;
-
+    //LinearLayout linearLayoutPolja;
+    // RelativeLayout relativeLayoutAnimacija;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_prijava);
+        ButterKnife.bind(this);
 
-        if (android.os.Build.VERSION.SDK_INT > 9) {
+        if (Build.VERSION.SDK_INT > 9) {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
         }
@@ -58,13 +78,13 @@ public class PrijavaActivity extends AppCompatActivity {
         animacijaOdozdo = AnimationUtils.loadAnimation(this, R.anim.animacija_odozdo);
 
 
-        unesiKorisnickoIme = findViewById(R.id.korisnicko_ime_txt);
+        /*unesiKorisnickoIme = findViewById(R.id.korisnicko_ime_txt);
         unesiLozinku = findViewById(R.id.lozinka_txt);
         prijaviSe = findViewById(R.id.prijavi_se_btn);
         info = findViewById(R.id.info_btn);
-        linearLayoutPolja = findViewById(R.id.linear_layout_polja);
-        slikaLogin = findViewById(R.id.slika_login);
-        textViewPrijava = findViewById(R.id.text_view_prijava);
+        linearLayoutPolja = findViewById(R.id.linear_layout_polja);*/
+        //slikaLogin = findViewById(R.id.slika_login);
+        // textViewPrijava = findViewById(R.id.text_view_prijava);
         relativeLayoutAnimacija = findViewById(R.id.relative_layout_animacija);
 
 
@@ -72,7 +92,7 @@ public class PrijavaActivity extends AppCompatActivity {
         prijaviSe.startAnimation(animacijaOdozdo);
         slikaLogin.startAnimation(animacijaOdozdo);
         textViewPrijava.startAnimation(animacijaOdozdo);*/
-      relativeLayoutAnimacija.startAnimation(animacijaOdozdo);
+        relativeLayoutAnimacija.startAnimation(animacijaOdozdo);
 
         unesiKorisnickoIme.setFocusable(false);
         unesiLozinku.setFocusable(false);
@@ -91,24 +111,6 @@ public class PrijavaActivity extends AppCompatActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 unesiLozinku.setFocusableInTouchMode(true);
                 return false;
-            }
-        });
-
-
-        prijaviSe.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                provjeriUnos(unesiKorisnickoIme);
-                provjeriUnos(unesiLozinku);
-                prijava();
-            }
-        });
-
-        info.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(PrijavaActivity.this, OAplikacijiActivity.class);
-                startActivity(intent);
             }
         });
 
@@ -217,5 +219,18 @@ public class PrijavaActivity extends AppCompatActivity {
         alert.show();
 
 
+    }
+
+    @OnClick(R.id.prijavi_se_btn)
+    public void onPrijaviSeBtnClicked() {
+        provjeriUnos(unesiKorisnickoIme);
+        provjeriUnos(unesiLozinku);
+        prijava();
+    }
+
+    @OnClick(R.id.info_btn)
+    public void onInfoBtnClicked() {
+        Intent intent = new Intent(PrijavaActivity.this, OAplikacijiActivity.class);
+        startActivity(intent);
     }
 }

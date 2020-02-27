@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v7.app.AlertDialog;
@@ -17,13 +18,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,90 +36,41 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnItemLongClick;
+
 
 public class ObrisiOsobuActivity extends AppCompatActivity {
 
     static ArrayList<Osoba> osobe;
-    private Adapter adapter;
-    private GridView gridView;
-    private boolean success = false;
+    @BindView(R.id.trazi_osobu_za_brisanje_txt)
     EditText traziOsobuZaBrisanjeTxt;
+    @BindView(R.id.gridView)
+    GridView gridView;
+    private Adapter adapter;
+    //private GridView gridView;
+    private boolean success = false;
+    //EditText traziOsobuZaBrisanjeTxt;
     String msg;
-
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_obrisi_osobu);
+        ButterKnife.bind(this);
 
-        if (android.os.Build.VERSION.SDK_INT > 9) {
+        if (Build.VERSION.SDK_INT > 9) {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
         }
 
 
-
-        gridView = findViewById(R.id.gridView);
+        // gridView = findViewById(R.id.gridView);
         osobe = new ArrayList<Osoba>();
-        traziOsobuZaBrisanjeTxt = findViewById(R.id.trazi_osobu_za_brisanje_txt);
+        //traziOsobuZaBrisanjeTxt = findViewById(R.id.trazi_osobu_za_brisanje_txt);
 
-
-        gridView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                final int pos = position;
-
-                AlertDialog.Builder alertDialog = new AlertDialog.Builder(ObrisiOsobuActivity.this);
-                alertDialog.setMessage("Jeste li sigurni da želite obrisati osobu?").setCancelable(false)
-                        .setPositiveButton("Da", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                try {
-                                    long id=osobe.get(pos).getId();
-                                    msg="";
-                                    Class.forName("com.mysql.jdbc.Driver");
-                                    Connection connection = DriverManager.getConnection(Baza.getDbUrl(), Baza.getUSER(), Baza.getPASS());
-
-                                    if (connection == null) {
-                                        success = false;
-                                    } else {
-                                        String upit = "DELETE FROM osobe WHERE id='" + id + "'";
-                                        PreparedStatement preparedStatement = connection.prepareStatement(upit);
-                                        preparedStatement.executeUpdate();
-                                        Toast.makeText(ObrisiOsobuActivity.this, "Osoba obrisana!", Toast.LENGTH_SHORT).show();
-                                        IzlistajOsobe izlistajOsobe = new IzlistajOsobe();
-                                        izlistajOsobe.execute("");
-
-
-                                    }
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                    Writer writer = new StringWriter();
-                                    e.printStackTrace(new PrintWriter(writer));
-                                    msg = writer.toString();
-                                    success = false;
-                                }
-
-                            }
-
-
-                        })
-                        .setNegativeButton("Ne", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.cancel();
-                            }
-                        });
-                AlertDialog alert = alertDialog.create();
-                alert.setTitle("Upozorenje!");
-                alert.show();
-
-
-                return false;
-            }
-
-        });
 
         traziOsobuZaBrisanjeTxt.addTextChangedListener(new TextWatcher() {
             @Override
@@ -140,6 +90,59 @@ public class ObrisiOsobuActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    @OnItemLongClick(R.id.gridView)
+    public boolean onViewClicked(AdapterView<?> parent, View view, int position, long id) {
+        final int pos = position;
+
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(ObrisiOsobuActivity.this);
+        alertDialog.setMessage("Jeste li sigurni da želite obrisati osobu?").setCancelable(false)
+                .setPositiveButton("Da", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        try {
+                            long id = osobe.get(pos).getId();
+                            msg = "";
+                            Class.forName("com.mysql.jdbc.Driver");
+                            Connection connection = DriverManager.getConnection(Baza.getDbUrl(), Baza.getUSER(), Baza.getPASS());
+
+                            if (connection == null) {
+                                success = false;
+                            } else {
+                                String upit = "DELETE FROM osobe WHERE id='" + id + "'";
+                                PreparedStatement preparedStatement = connection.prepareStatement(upit);
+                                preparedStatement.executeUpdate();
+                                Toast.makeText(ObrisiOsobuActivity.this, "Osoba obrisana!", Toast.LENGTH_SHORT).show();
+                                IzlistajOsobe izlistajOsobe = new IzlistajOsobe();
+                                izlistajOsobe.execute("");
+
+
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            Writer writer = new StringWriter();
+                            e.printStackTrace(new PrintWriter(writer));
+                            msg = writer.toString();
+                            success = false;
+                        }
+
+                    }
+
+
+                })
+                .setNegativeButton("Ne", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alert = alertDialog.create();
+        alert.setTitle("Upozorenje!");
+        alert.show();
+
+
+        return false;
     }
 
 
@@ -163,11 +166,11 @@ public class ObrisiOsobuActivity extends AppCompatActivity {
                     success = false;
                 } else {
                     osobe = new ArrayList<>();
-                    String pojam=traziOsobuZaBrisanjeTxt.getText().toString();
+                    String pojam = traziOsobuZaBrisanjeTxt.getText().toString();
 
-                    if(pojam.equals("")){
+                    if (pojam.equals("")) {
                         osobe = new ArrayList<>();
-                    }else{
+                    } else {
                         String upit = "SELECT * FROM osobe WHERE ime LIKE '%" + pojam + "%' OR prezime LIKE '%"
                                 + pojam + "%' OR spol LIKE '%" + pojam + "%' OR adresa LIKE '%"
                                 + pojam + "%' OR oib LIKE '%" + pojam + "%' OR datum_rodenja LIKE '%"
@@ -223,7 +226,7 @@ public class ObrisiOsobuActivity extends AppCompatActivity {
 
             } else {
                 try {
-                    adapter = new ObrisiOsobuActivity.Adapter(osobe, ObrisiOsobuActivity.this);
+                    adapter = new Adapter(osobe, ObrisiOsobuActivity.this);
                     gridView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
                     gridView.setAdapter(adapter);
                 } catch (Exception ex) {
@@ -235,12 +238,26 @@ public class ObrisiOsobuActivity extends AppCompatActivity {
 
     public class Adapter extends BaseAdapter {
 
+
+
         public class ViewHolder {
-            TextView textIme;
-            TextView textPrezime;
-            TextView textGrad;
+            @BindView(R.id.image_view_slika)
             ImageView slikaOsobe;
-            byte [] slika;
+            @BindView(R.id.text_view_ime)
+            TextView textIme;
+            @BindView(R.id.text_view_prezime)
+            TextView textPrezime;
+            @BindView(R.id.text_view_grad)
+            TextView textGrad;
+            /* TextView textIme;
+             TextView textPrezime;
+             TextView textGrad;
+             ImageView slikaOsobe;*/
+            byte[] slika;
+
+            public ViewHolder(View view) {
+                ButterKnife.bind(this, view);
+            }
         }
 
         public List<Osoba> listaOsoba;
@@ -273,26 +290,26 @@ public class ObrisiOsobuActivity extends AppCompatActivity {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             View rowView = convertView;
-            ObrisiOsobuActivity.Adapter.ViewHolder viewHolder = null;
+            ViewHolder viewHolder = null;
 
             if (rowView == null) {
                 LayoutInflater inflater = getLayoutInflater();
                 rowView = inflater.inflate(R.layout.list_content, parent, false);
-                viewHolder = new ObrisiOsobuActivity.Adapter.ViewHolder();
-                viewHolder.textIme = (TextView) rowView.findViewById(R.id.text_view_ime);
-                viewHolder.textPrezime = (TextView) rowView.findViewById(R.id.text_view_prezime);
-                viewHolder.textGrad = (TextView) rowView.findViewById(R.id.text_view_grad);
-                viewHolder.slikaOsobe = (ImageView) rowView.findViewById(R.id.image_view_slika);
+                viewHolder = new ViewHolder(rowView);
+                //viewHolder.textIme = (TextView) rowView.findViewById(R.id.text_view_ime);
+               // viewHolder.textPrezime = (TextView) rowView.findViewById(R.id.text_view_prezime);
+               // viewHolder.textGrad = (TextView) rowView.findViewById(R.id.text_view_grad);
+               // viewHolder.slikaOsobe = (ImageView) rowView.findViewById(R.id.image_view_slika);
                 rowView.setTag(viewHolder);
 
             } else {
-                viewHolder = (ObrisiOsobuActivity.Adapter.ViewHolder) convertView.getTag();
+                viewHolder = (ViewHolder) convertView.getTag();
             }
             viewHolder.textIme.setText(listaOsoba.get(position).getIme() + "");
             viewHolder.textPrezime.setText(listaOsoba.get(position).getPrezime() + "");
             viewHolder.textGrad.setText(listaOsoba.get(position).getGrad() + "");
             viewHolder.slika = listaOsoba.get(position).getSlika();
-            Bitmap slika_osobe= BitmapFactory.decodeByteArray(viewHolder.slika,0,viewHolder.slika.length);
+            Bitmap slika_osobe = BitmapFactory.decodeByteArray(viewHolder.slika, 0, viewHolder.slika.length);
             viewHolder.slikaOsobe.setImageBitmap(slika_osobe);
 
 

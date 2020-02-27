@@ -43,7 +43,7 @@ public class ObrisiAdminaActivity extends AppCompatActivity {
 
     static ArrayList<Admin> admini;
     @BindView(R.id.trazi_admina_za_brisanje_txt)
-    EditText traziAdminaZaBrisanje;
+    EditText traziAdminaZaBrisanjeTxt;
     @BindView(R.id.grid_view_admin_za_brisanje)
     GridView gridViewAdmin;
     private Adapter adapter;
@@ -69,7 +69,7 @@ public class ObrisiAdminaActivity extends AppCompatActivity {
         // traziAdminaZaBrisanjeTxt = findViewById(R.id.trazi_admina_za_brisanje_txt);
 
 
-        traziAdminaZaBrisanje.addTextChangedListener(new TextWatcher() {
+        traziAdminaZaBrisanjeTxt.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -163,7 +163,7 @@ public class ObrisiAdminaActivity extends AppCompatActivity {
                     success = false;
                 } else {
                     admini = new ArrayList<>();
-                    String pojam = traziAdminaZaBrisanje.getText().toString();
+                    String pojam = traziAdminaZaBrisanjeTxt.getText().toString();
 
                     if (pojam.equals("")) {
                         admini = new ArrayList<>();
