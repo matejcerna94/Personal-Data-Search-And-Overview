@@ -6,10 +6,11 @@ import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.os.Build;
+import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -34,89 +35,41 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnItemLongClick;
+
 public class ObrisiAdminaActivity extends AppCompatActivity {
 
     static ArrayList<Admin> admini;
+    @BindView(R.id.trazi_admina_za_brisanje_txt)
+    EditText traziAdminaZaBrisanje;
+    @BindView(R.id.grid_view_admin_za_brisanje)
+    GridView gridViewAdmin;
     private Adapter adapter;
-    private GridView gridViewAdmin;
+    //private GridView gridViewAdmin;
     private boolean success = false;
-    EditText traziAdminaZaBrisanjeTxt;
+    //EditText traziAdminaZaBrisanje;
     String msg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_obrisi_admina);
+        ButterKnife.bind(this);
 
-        if (android.os.Build.VERSION.SDK_INT > 9) {
+        if (Build.VERSION.SDK_INT > 9) {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
         }
 
 
-
-        gridViewAdmin = findViewById(R.id.grid_view_admin_za_brisanje);
+        //gridViewAdmin = findViewById(R.id.grid_view_admin_za_brisanje);
         admini = new ArrayList<Admin>();
-        traziAdminaZaBrisanjeTxt = findViewById(R.id.trazi_admina_za_brisanje_txt);
-
-        gridViewAdmin.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                final int pos = position;
-
-                AlertDialog.Builder alertDialog = new AlertDialog.Builder(ObrisiAdminaActivity.this);
-                alertDialog.setMessage("Jeste li sigurni da želite obrisati administratora?").setCancelable(false)
-                        .setPositiveButton("Da", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                try {
-                                    long id=admini.get(pos).getId();
-                                    msg="";
-                                    Class.forName("com.mysql.jdbc.Driver");
-                                    Connection connection = DriverManager.getConnection(Baza.getDbUrl(), Baza.getUSER(), Baza.getPASS());
-
-                                    if (connection == null) {
-                                        success = false;
-                                    } else {
-                                        String upit = "DELETE FROM admin WHERE id= ?";
-                                        PreparedStatement preparedStatement = connection.prepareStatement(upit);
-                                        preparedStatement.setLong(1, id);
-                                        preparedStatement.executeUpdate();
-                                        Toast.makeText(ObrisiAdminaActivity.this, "Administrator obrisan!", Toast.LENGTH_SHORT).show();
-                                        IzlistajAdmine izlistajAdmine = new IzlistajAdmine();
-                                        izlistajAdmine.execute("");
+        // traziAdminaZaBrisanjeTxt = findViewById(R.id.trazi_admina_za_brisanje_txt);
 
 
-                                    }
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                    Writer writer = new StringWriter();
-                                    e.printStackTrace(new PrintWriter(writer));
-                                    msg = writer.toString();
-                                    success = false;
-                                }
-
-                            }
-
-
-                        })
-                        .setNegativeButton("Ne", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.cancel();
-                            }
-                        });
-                AlertDialog alert = alertDialog.create();
-                alert.setTitle("Upozorenje!");
-                alert.show();
-
-
-                return false;
-            }
-
-        });
-
-        traziAdminaZaBrisanjeTxt.addTextChangedListener(new TextWatcher() {
+        traziAdminaZaBrisanje.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -134,6 +87,60 @@ public class ObrisiAdminaActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    @OnItemLongClick(R.id.grid_view_admin_za_brisanje)
+    public boolean onViewClicked(AdapterView<?> parent, View view, int position, long id) {
+        final int pos = position;
+
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(ObrisiAdminaActivity.this);
+        alertDialog.setMessage("Jeste li sigurni da želite obrisati administratora?").setCancelable(false)
+                .setPositiveButton("Da", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        try {
+                            long id = admini.get(pos).getId();
+                            msg = "";
+                            Class.forName("com.mysql.jdbc.Driver");
+                            Connection connection = DriverManager.getConnection(Baza.getDbUrl(), Baza.getUSER(), Baza.getPASS());
+
+                            if (connection == null) {
+                                success = false;
+                            } else {
+                                String upit = "DELETE FROM admin WHERE id= ?";
+                                PreparedStatement preparedStatement = connection.prepareStatement(upit);
+                                preparedStatement.setLong(1, id);
+                                preparedStatement.executeUpdate();
+                                Toast.makeText(ObrisiAdminaActivity.this, "Administrator obrisan!", Toast.LENGTH_SHORT).show();
+                                IzlistajAdmine izlistajAdmine = new IzlistajAdmine();
+                                izlistajAdmine.execute("");
+
+
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            Writer writer = new StringWriter();
+                            e.printStackTrace(new PrintWriter(writer));
+                            msg = writer.toString();
+                            success = false;
+                        }
+
+                    }
+
+
+                })
+                .setNegativeButton("Ne", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alert = alertDialog.create();
+        alert.setTitle("Upozorenje!");
+        alert.show();
+
+        return false;
+
     }
 
     private class IzlistajAdmine extends AsyncTask<String, String, String> {
@@ -156,11 +163,11 @@ public class ObrisiAdminaActivity extends AppCompatActivity {
                     success = false;
                 } else {
                     admini = new ArrayList<>();
-                    String pojam=traziAdminaZaBrisanjeTxt.getText().toString();
+                    String pojam = traziAdminaZaBrisanje.getText().toString();
 
-                    if(pojam.equals("")){
+                    if (pojam.equals("")) {
                         admini = new ArrayList<>();
-                    }else{
+                    } else {
                         String upit = "SELECT * FROM admin WHERE korisnicko_ime LIKE '%" + pojam + "%'";
                         PreparedStatement preparedStatement = connection.prepareStatement(upit);
                         ResultSet resultSet = preparedStatement.executeQuery();
@@ -206,7 +213,7 @@ public class ObrisiAdminaActivity extends AppCompatActivity {
 
             } else {
                 try {
-                    adapter = new ObrisiAdminaActivity.Adapter(admini, ObrisiAdminaActivity.this);
+                    adapter = new Adapter(admini, ObrisiAdminaActivity.this);
                     gridViewAdmin.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
                     gridViewAdmin.setAdapter(adapter);
                 } catch (Exception ex) {
@@ -218,10 +225,21 @@ public class ObrisiAdminaActivity extends AppCompatActivity {
 
     public class Adapter extends BaseAdapter {
 
+
+
+
         public class ViewHolder {
-            TextView textKorisnickoIme;
+            @BindView(R.id.image_view_slika_admina)
             ImageView slikaAdmina;
-            byte [] slika;
+            @BindView(R.id.text_view_korisnicko_ime)
+            TextView textKorisnickoIme;
+            //TextView textKorisnickoIme;
+            //ImageView slikaAdmina;
+            byte[] slika;
+
+            public ViewHolder(View view) {
+                ButterKnife.bind(this, view);
+            }
         }
 
         public List<Admin> listaAdmina;
@@ -254,22 +272,22 @@ public class ObrisiAdminaActivity extends AppCompatActivity {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             View rowView = convertView;
-            ObrisiAdminaActivity.Adapter.ViewHolder viewHolder = null;
+            ViewHolder viewHolder = null;
 
             if (rowView == null) {
                 LayoutInflater inflater = getLayoutInflater();
                 rowView = inflater.inflate(R.layout.list_content_admin, parent, false);
-                viewHolder = new ObrisiAdminaActivity.Adapter.ViewHolder();
-                viewHolder.textKorisnickoIme = (TextView) rowView.findViewById(R.id.text_view_korisnicko_ime);
-                viewHolder.slikaAdmina = (ImageView) rowView.findViewById(R.id.image_view_slika_admina);
+                viewHolder = new ViewHolder(rowView);
+                //viewHolder.textKorisnickoIme = (TextView) rowView.findViewById(R.id.text_view_korisnicko_ime);
+                // viewHolder.slikaAdmina = (ImageView) rowView.findViewById(R.id.image_view_slika_admina);
                 rowView.setTag(viewHolder);
 
             } else {
-                viewHolder = (ObrisiAdminaActivity.Adapter.ViewHolder) convertView.getTag();
+                viewHolder = (ViewHolder) convertView.getTag();
             }
             viewHolder.textKorisnickoIme.setText(listaAdmina.get(position).getKorisniko_ime() + "");
             viewHolder.slika = listaAdmina.get(position).getSlika();
-            Bitmap slika_admina= BitmapFactory.decodeByteArray(viewHolder.slika,0,viewHolder.slika.length);
+            Bitmap slika_admina = BitmapFactory.decodeByteArray(viewHolder.slika, 0, viewHolder.slika.length);
             viewHolder.slikaAdmina.setImageBitmap(slika_admina);
 
             return rowView;

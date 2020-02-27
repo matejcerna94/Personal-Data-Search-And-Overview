@@ -27,7 +27,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -35,7 +34,6 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -52,11 +50,15 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 
 public class DodajOsobuActivity extends AppCompatActivity {
 
 
-    EditText unesiIme;
+    /*EditText unesiIme;
     EditText unesiPrezime;
     EditText unesiAdresu;
     EditText unesiOib;
@@ -68,12 +70,39 @@ public class DodajOsobuActivity extends AppCompatActivity {
     RadioGroup radioGroup;
     RadioButton radioButtonMusko;
     RadioButton radioButtonZensko;
-    TextView textViewZupanija;
+    TextView textViewZupanija;*/
     String spol = "";
     byte[] slika_osobe;
-    Button odaberiDatumRodenja;
+    //Button odaberiDatumRodenja;
     DatePickerDialog.OnDateSetListener datum_rodenja;
+
+    @BindView(R.id.text_view_dodaj_osobu)
+    TextView textViewDodajOsobu;
+    @BindView(R.id.image_view_slika_osobe)
+    ImageView imageViewSlikaOsobe;
+    @BindView(R.id.unesi_ime_txt)
+    EditText unesiIme;
+    @BindView(R.id.unesi_prezime_txt)
+    EditText unesiPrezime;
+    @BindView(R.id.radio_button_musko)
+    RadioButton radioButtonMusko;
+    @BindView(R.id.radio_button_zensko)
+    RadioButton radioButtonZensko;
+    @BindView(R.id.radio_group)
+    RadioGroup radioGroup;
+    @BindView(R.id.unesi_adresu_txt)
+    EditText unesiAdresu;
+    @BindView(R.id.text_view_datum_rodenja)
     TextView textViewDatumRodenja;
+    @BindView(R.id.unesi_oib_txt)
+    EditText unesiOib;
+    @BindView(R.id.text_view_zupanija)
+    TextView textViewZupanija;
+    @BindView(R.id.unesi_grad_txt)
+    EditText unesiGrad;
+    @BindView(R.id.unesi_mjesto_rodenja_txt)
+    EditText unesiMjestoRodenja;
+    // TextView textViewDatumRodenja;
     private boolean success = false;
     ContentValues cv;
     Uri imageUri;
@@ -81,7 +110,7 @@ public class DodajOsobuActivity extends AppCompatActivity {
     ArrayList<Zupanija> listaZupanija = new ArrayList<>();
     SpinnerDialog spinnerDialog;
     ArrayAdapter<Zupanija> adapter;
-    Button odaberiZupaniju;
+    //Button odaberiZupaniju;
 
     private static final int GALLERY = 1;
     private static final int CAMERA = 2;
@@ -100,9 +129,10 @@ public class DodajOsobuActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dodaj_osobu);
+        ButterKnife.bind(this);
 
 
-        if (android.os.Build.VERSION.SDK_INT > 9) {
+        if (Build.VERSION.SDK_INT > 9) {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
         }
@@ -115,7 +145,7 @@ public class DodajOsobuActivity extends AppCompatActivity {
         storagePermission = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
 
-        unesiIme = findViewById(R.id.unesi_ime_txt);
+        /*unesiIme = findViewById(R.id.unesi_ime_txt);
         unesiPrezime = findViewById(R.id.unesi_prezime_txt);
         unesiAdresu = findViewById(R.id.unesi_adresu_txt);
         unesiOib = findViewById(R.id.unesi_oib_txt);
@@ -127,9 +157,7 @@ public class DodajOsobuActivity extends AppCompatActivity {
         textViewZupanija = findViewById(R.id.text_view_zupanija);
         odaberiZupaniju = findViewById(R.id.odaberi_zupaniju_btn);
         unesiMjestoRodenja = findViewById(R.id.unesi_mjesto_rodenja_txt);
-        unesiGrad = findViewById(R.id.unesi_grad_txt);
-
-
+        unesiGrad = findViewById(R.id.unesi_grad_txt);*/
 
 
         IzlistajZupanije izlistajZupanije = new IzlistajZupanije();
@@ -143,32 +171,10 @@ public class DodajOsobuActivity extends AppCompatActivity {
             }
         });
 
-        odaberiZupaniju.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                spinnerDialog.showSpinerDialog();
-            }
-        });
 
 
-        odaberiDatumRodenja.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Calendar calendar = Calendar.getInstance();
-                int godina = calendar.get(Calendar.YEAR);
-                int mjesec = calendar.get(Calendar.MONTH);
-                int dan = calendar.get(Calendar.DAY_OF_WEEK);
 
-                DatePickerDialog datePickerDialog = new DatePickerDialog(
-                        DodajOsobuActivity.this,
-                        android.R.style.Theme_Holo_Light_Dialog_MinWidth,
-                        datum_rodenja,
-                        godina, mjesec, dan);
 
-                datePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                datePickerDialog.show();
-            }
-        });
 
         datum_rodenja = new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -195,30 +201,10 @@ public class DodajOsobuActivity extends AppCompatActivity {
             }
         };
 
-        odaberiSliku.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                prikaziDialog();
-            }
-        });
 
 
-        dodajOsobu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                provjeriUnos(unesiIme);
-                provjeriUnos(unesiPrezime);
-                provjeriUnos(unesiAdresu);
-                provjeriUnos(unesiOib);
-                provjeriUnos(unesiGrad);
-                provjeriUnos(unesiMjestoRodenja);
-                provjeriUnos2(textViewZupanija);
-                provjeriUnos2(textViewDatumRodenja);
-                dodajOsobu();
 
 
-            }
-        });
 
     }
 
@@ -404,12 +390,12 @@ public class DodajOsobuActivity extends AppCompatActivity {
                     if (radioGroup.getCheckedRadioButtonId() == -1) {
                         Toast.makeText(this, "Morate odabrati spol!", Toast.LENGTH_SHORT).show();
                     } else {
-                        if(datum_rodenja.equals("")){
+                        if (datum_rodenja.equals("")) {
                             Toast.makeText(this, "Morate odabrati datum rođenja!", Toast.LENGTH_SHORT).show();
-                        }else{
-                            if(id_zupanije == 0){
+                        } else {
+                            if (id_zupanije == 0) {
                                 Toast.makeText(this, "Morate odabrati županiju!", Toast.LENGTH_SHORT).show();
-                            }else{
+                            } else {
                                 if (slika_osobe == null) {
                                     Toast.makeText(this, "Morate odabrati sliku!", Toast.LENGTH_SHORT).show();
                                 } else {
@@ -534,7 +520,7 @@ public class DodajOsobuActivity extends AppCompatActivity {
 
     public void choosePhotoFromGallary() {
         Intent intent = new Intent(Intent.ACTION_PICK,
-                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
         startActivityForResult(intent, GALLERY);
     }
@@ -549,7 +535,6 @@ public class DodajOsobuActivity extends AppCompatActivity {
         intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
         startActivityForResult(intent, CAMERA);
     }
-
 
 
     public String saveImage(Bitmap myBitmap) {
@@ -584,6 +569,45 @@ public class DodajOsobuActivity extends AppCompatActivity {
         return "";
     }
 
+    @OnClick(R.id.odaberi_sliku_btn)
+    public void onOdaberiSlikuBtnClicked() {
+        prikaziDialog();
+    }
+
+    @OnClick(R.id.odaberi_datum_rodenja_btn)
+    public void onOdaberiDatumRodenjaBtnClicked() {
+        Calendar calendar = Calendar.getInstance();
+        int godina = calendar.get(Calendar.YEAR);
+        int mjesec = calendar.get(Calendar.MONTH);
+        int dan = calendar.get(Calendar.DAY_OF_WEEK);
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(
+                DodajOsobuActivity.this,
+                android.R.style.Theme_Holo_Light_Dialog_MinWidth,
+                datum_rodenja,
+                godina, mjesec, dan);
+
+        datePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        datePickerDialog.show();
+    }
+
+    @OnClick(R.id.odaberi_zupaniju_btn)
+    public void onOdaberiZupanijuBtnClicked() {
+        spinnerDialog.showSpinerDialog();
+    }
+
+    @OnClick(R.id.dodaj_osobu_btn)
+    public void onDodajOsobuBtnClicked() {
+        provjeriUnos(unesiIme);
+        provjeriUnos(unesiPrezime);
+        provjeriUnos(unesiAdresu);
+        provjeriUnos(unesiOib);
+        provjeriUnos(unesiGrad);
+        provjeriUnos(unesiMjestoRodenja);
+        provjeriUnos2(textViewZupanija);
+        provjeriUnos2(textViewDatumRodenja);
+        dodajOsobu();
+    }
 
 
     private class IzlistajZupanije extends AsyncTask<String, String, String> {
