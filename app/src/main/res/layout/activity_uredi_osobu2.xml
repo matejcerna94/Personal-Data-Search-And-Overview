@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorMidnightBlue"
     android:orientation="vertical"
-    tools:context="UrediOsobu2Activity">
+    tools:context=".activity.UrediOsobu2Activity">
 
     <ScrollView
         android:elevation="1dp"

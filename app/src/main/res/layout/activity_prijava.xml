@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PrijavaActivity">
+    tools:context=".activity.PrijavaActivity">
 
     <RelativeLayout
         android:id="@+id/relative_layout_animacija"

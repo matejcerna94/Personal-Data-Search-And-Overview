@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ObrisiAdminaActivity">
+    tools:context=".activity.ObrisiAdminaActivity">
 
     <LinearLayout
         android:elevation="1dp"
