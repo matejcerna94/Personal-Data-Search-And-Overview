@@ -2,9 +2,9 @@ package com.matejcerna.database;
 
 public class Baza {
 
-     private static final String DB_URL = "jdbc:mysql://remotemysql.com:3306/fRXvWUe5Lg?useUnicode=true&characterEncoding=utf-8";
-    private static final String USER = "fRXvWUe5Lg";
-    private static final String PASS = "FKcQDgUkRc";
+     private static final String DB_URL = "jdbc:mysql://remotemysql.com:3306/baza?useUnicode=true&characterEncoding=utf-8";
+    private static final String USER = "";
+    private static final String PASS = "";
 
    /* private static final String DB_URL = "jdbc:mysql://192.168.70.33:3306/osobe_diplomski?characterEncoding=utf-8";
     private static final String USER = "matej";
