@@ -38,7 +38,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:paddingTop="165dp"
+        android:paddingTop="275dp"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         android:id="@+id/meni"
